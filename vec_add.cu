@@ -75,9 +75,9 @@ int main()
 
     // Copy results GPU -> CPU.
     cudaMemcpy(gpu_out0, d_out0, sizeof(float) * N, cudaMemcpyDeviceToHost);
+    auto t5 = high_resolution_clock::now();
     cudaMemcpy(gpu_out1, d_out1, sizeof(float) * N, cudaMemcpyDeviceToHost);
     cudaMemcpy(gpu_out2, d_out2, sizeof(float) * N, cudaMemcpyDeviceToHost);
-    auto t5 = high_resolution_clock::now();
    
     // Calculate GPU durations.
     duration<double, std::micro> d1, d2, d3, d4, d5;
