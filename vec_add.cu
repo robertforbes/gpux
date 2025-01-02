@@ -12,9 +12,7 @@ static void print_vec(float *vec, int n);
 __global__ static void vec_add_gpu(float *out, float *x, float *y, int n);
 
 using std::chrono::high_resolution_clock;
-using std::chrono::duration_cast;
 using std::chrono::duration;
-using std::chrono::milliseconds;
 
 int main()
 {
