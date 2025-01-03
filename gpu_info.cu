@@ -41,5 +41,9 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("major                 : %d\n", devProps->major);
     std::printf("minor                 : %d\n", devProps->minor);
     std::printf("multiprocessor count  : %d\n", devProps->multiProcessorCount);
+    std::printf("tccDriver             : %d\n", devProps->tccDriver);
+    std::printf("async engine count    : %d\n", devProps->asyncEngineCount);
+    std::printf("memory clock rate     : %d\n", devProps->memoryClockRate);
+    std::printf("memory bus width      : %d\n", devProps->memoryBusWidth);
 }
 
