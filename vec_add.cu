@@ -26,12 +26,14 @@ int main()
 {
     duration<double, std::micro> us;
 
+    // Initialise test vectors.
     for(int i = 0; i < N; i++)
     {
         x[i] = 19.0f;
         y[i] = 23.0f;
     }
 
+    // Run a reference CPU computation and time the execution.
     auto t0 = high_resolution_clock::now();
     vec_add(cpu_out, x, y, N);
     auto t1 = high_resolution_clock::now();
@@ -93,6 +95,8 @@ int main()
         d3.count(),
         d4.count(),
         d5.count());
+
+    // Dump out part of the vectors, and run a check against the reference.
     print_vec(gpu_out0, 10);
     check_vec(gpu_out0, cpu_out, 0.00001, N);
     print_vec(gpu_out1, 10);
