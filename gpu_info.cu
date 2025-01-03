@@ -40,5 +40,6 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("total const mem       : %zd\n", devProps->totalConstMem);
     std::printf("major                 : %d\n", devProps->major);
     std::printf("minor                 : %d\n", devProps->minor);
+    std::printf("multiprocessor count  : %d\n", devProps->multiProcessorCount);
 }
 
