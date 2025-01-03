@@ -7,6 +7,7 @@
 // CPU functions.
 static void vec_add(float *out, float *x, float *y, int n);
 static void print_vec(float *vec, int n);
+static void check_vec(float *vec, float *ref, float thresh, int n);
 
 // GPU functions.
 __global__ static void vec_add_gpu(float *out, float *x, float *y, int n);
@@ -93,8 +94,11 @@ int main()
         d4.count(),
         d5.count());
     print_vec(gpu_out0, 10);
+    check_vec(gpu_out0, cpu_out, 0.00001, N);
     print_vec(gpu_out1, 10);
+    check_vec(gpu_out1, cpu_out, 0.00001, N);
     print_vec(gpu_out2, 10);
+    check_vec(gpu_out2, cpu_out, 0.00001, N);
 
     // Free device memory.
     cudaFree(d_x);
@@ -140,4 +144,23 @@ static void print_vec(float *vec, int n)
         printf("%10.5f ", vec[i]);
     }
     printf("\n");
+}
+
+static void check_vec(float *vec, float *ref, float thresh, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        float diff = fabs(vec[i] - ref[i]);
+        if(diff > thresh)
+        {
+            printf("check_vec failed at index %d, vec %10.5f, ref %10.5f, diff %10.5f, thresh %10.5f\n",
+                i,
+                vec[i],
+                ref[i],
+                diff,
+                thresh);
+            return;
+        }
+    }
+    printf("check_vec passed\n");
 }
