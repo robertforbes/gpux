@@ -52,5 +52,9 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("reserved shared mem per block : %zd\n", devProps->reservedSharedMemPerBlock);
     std::printf("unified addressing            : %d\n", devProps->unifiedAddressing);
     std::printf("unified function pointers     : %d\n", devProps->unifiedAddressing);
+
+    std::printf("tcc driver                    : %d\n", devProps->tccDriver);
+    std::printf("texture alignment             : %zd\n", devProps->textureAlignment);
+    std::printf("texture pitch alignment       : %zd\n", devProps->texturePitchAlignment);
 }
 
