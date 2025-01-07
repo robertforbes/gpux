@@ -46,6 +46,9 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("memory clock rate             : %d\n", devProps->memoryClockRate);
     std::printf("memory bus width              : %d\n", devProps->memoryBusWidth);
 
+    std::printf("registers per block           : %d\n", devProps->regsPerBlock);
+    std::printf("registers per multiprocessor  : %d\n", devProps->regsPerMultiprocessor);
+
     std::printf("reserved shared mem per block : %zd\n", devProps->reservedSharedMemPerBlock);
     std::printf("unified addressing            : %d\n", devProps->unifiedAddressing);
     std::printf("unified function pointers     : %d\n", devProps->unifiedAddressing);
