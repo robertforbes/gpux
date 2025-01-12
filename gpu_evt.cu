@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cuda.h>
 
-#define N 1000
+const int N = 1000;
 
 // GPU functions.
 __global__ static void vec_add_gpu(float *out, float *x, float *y, int n);
