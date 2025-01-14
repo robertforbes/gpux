@@ -79,8 +79,8 @@ int main()
     cudaDeviceSynchronize();
     auto t4 = high_resolution_clock::now();
 
-    // Run 512 blocks, 256 threads per block.
-    vec_add_gpu<<<512,256>>>(d_out3, d_x, d_y, N);
+    // Run 4096 blocks, 256 threads per block.
+    vec_add_gpu<<<4096,256>>>(d_out3, d_x, d_y, N);
     cudaDeviceSynchronize();
     auto t5 = high_resolution_clock::now();
 
