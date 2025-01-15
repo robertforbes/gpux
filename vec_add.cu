@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <cuda.h>
 #include <chrono>
+#include <vector>
 
 #define N 1048576
 
@@ -15,16 +16,18 @@ __global__ static void vec_add_gpu(float *out, float *x, float *y, int n);
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
-static float x[N];
-static float y[N];
-static float cpu_out[N];
-static float gpu_out0[N];
-static float gpu_out1[N];
-static float gpu_out2[N];
-static float gpu_out3[N];
-
 int main()
 {
+    // Allocate CPU memory.
+    std::vector<float> x(N);
+    std::vector<float> y(N);
+    std::vector<float> cpu_out(N);
+    std::vector<float> gpu_out0(N);
+    std::vector<float> gpu_out1(N);
+    std::vector<float> gpu_out2(N);
+    std::vector<float> gpu_out3(N);
+
+
     duration<double, std::micro> us;
 
     // Initialise test vectors.
@@ -36,12 +39,12 @@ int main()
 
     // Run a reference CPU computation and time the execution.
     auto t0 = high_resolution_clock::now();
-    vec_add(cpu_out, x, y, N);
+    vec_add(cpu_out.data(), x.data(), y.data(), N);
     auto t1 = high_resolution_clock::now();
     us = t1 - t0;
 
     printf("vec_add CPU, %10.5fus, output:\n", us.count());
-    print_vec(cpu_out, 10);
+    print_vec(cpu_out.data(), 10);
 
     float *d_x;
     float *d_y;
@@ -60,8 +63,8 @@ int main()
 
     // Copy CPU -> GPU.
     t0 = high_resolution_clock::now();
-    cudaMemcpy(d_x, x, sizeof(float) * N, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_y, y, sizeof(float) * N, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_x, x.data(), sizeof(float) * N, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_y, y.data(), sizeof(float) * N, cudaMemcpyHostToDevice);
     t1 = high_resolution_clock::now();
 
     // Run 1 block, 1 thread per block.
@@ -85,11 +88,11 @@ int main()
     auto t5 = high_resolution_clock::now();
 
     // Copy results GPU -> CPU.
-    cudaMemcpy(gpu_out0, d_out0, sizeof(float) * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(gpu_out0.data(), d_out0, sizeof(float) * N, cudaMemcpyDeviceToHost);
     auto t6 = high_resolution_clock::now();
-    cudaMemcpy(gpu_out1, d_out1, sizeof(float) * N, cudaMemcpyDeviceToHost);
-    cudaMemcpy(gpu_out2, d_out2, sizeof(float) * N, cudaMemcpyDeviceToHost);
-    cudaMemcpy(gpu_out3, d_out3, sizeof(float) * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(gpu_out1.data(), d_out1, sizeof(float) * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(gpu_out2.data(), d_out2, sizeof(float) * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(gpu_out3.data(), d_out3, sizeof(float) * N, cudaMemcpyDeviceToHost);
    
     // Calculate GPU durations.
     duration<double, std::micro> d1, d2, d3, d4, d5, d6;
@@ -108,14 +111,14 @@ int main()
         d6.count());
 
     // Dump out part of the vectors, and run a check against the reference.
-    print_vec(gpu_out0, 10);
-    check_vec(gpu_out0, cpu_out, 0.00001, N);
-    print_vec(gpu_out1, 10);
-    check_vec(gpu_out1, cpu_out, 0.00001, N);
-    print_vec(gpu_out2, 10);
-    check_vec(gpu_out2, cpu_out, 0.00001, N);
-    print_vec(gpu_out3, 10);
-    check_vec(gpu_out3, cpu_out, 0.00001, 1000);
+    print_vec(gpu_out0.data(), 10);
+    check_vec(gpu_out0.data(), cpu_out.data(), 0.00001, N);
+    print_vec(gpu_out1.data(), 10);
+    check_vec(gpu_out1.data(), cpu_out.data(), 0.00001, N);
+    print_vec(gpu_out2.data(), 10);
+    check_vec(gpu_out2.data(), cpu_out.data(), 0.00001, N);
+    print_vec(gpu_out3.data(), 10);
+    check_vec(gpu_out3.data(), cpu_out.data(), 0.00001, 1000);
 
     // Free device memory.
     cudaFree(d_x);
