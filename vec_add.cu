@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <cuda.h>
+#include <cstdio>
 #include <chrono>
 #include <vector>
+
+#include <cuda.h>
 
 #define N 1048576
 
@@ -43,7 +44,7 @@ int main()
     auto t1 = high_resolution_clock::now();
     us = t1 - t0;
 
-    printf("vec_add CPU, %10.5fus, output:\n", us.count());
+    std::printf("vec_add CPU, %10.5fus, output:\n", us.count());
     print_vec(cpu_out.data(), 10);
 
     float *d_x;
@@ -102,7 +103,7 @@ int main()
     d4 = t4 - t3;
     d5 = t5 - t4;
     d6 = t6 - t5;
-    printf("vec_add GPU, cp1 %10.5fus, ex1 %10.5fus, ex2 %10.5fus, ex3 %10.5fus, ex4 %10.5fus, cp2 %10.5fus, output:\n",
+    std::printf("vec_add GPU, cp1 %10.5fus, ex1 %10.5fus, ex2 %10.5fus, ex3 %10.5fus, ex4 %10.5fus, cp2 %10.5fus, output:\n",
         d1.count(),
         d2.count(),
         d3.count(),
@@ -140,10 +141,6 @@ void vec_add(float *out, float *x, float *y, int n)
 
 __global__ static void vec_add_gpu(float *out, float *x, float *y, int n)
 {
-    // printf("gridDim x %d, y %d, z %d\n", gridDim.x, gridDim.y, gridDim.z);
-    // printf("blockDim x %d, y %d, z %d\n", blockDim.x, blockDim.y, blockDim.z);
-    // printf("blockIdx x %d, y %d, z %d\n", blockIdx.x, blockIdx.y, blockIdx.z);
-    // printf("threadIdx x %d, y %d, z %d\n", threadIdx.x, threadIdx.y, threadIdx.z);
     auto block_len = n / gridDim.x;
     auto slice_len = n / (gridDim.x * blockDim.x);
     int start = blockIdx.x * block_len + threadIdx.x * slice_len;
@@ -152,8 +149,6 @@ __global__ static void vec_add_gpu(float *out, float *x, float *y, int n)
     {
         end = n;
     }
-    // printf("n %d, block_len %d, slice_len %d\n", n, block_len, slice_len);
-    // printf("start %d, end %d\n", start, end);
 
     for(int i = start; i < end; i++)
     {
@@ -165,9 +160,9 @@ static void print_vec(float *vec, int n)
 {
     for(int i = 0; i < n; i++)
     {
-        printf("%10.5f ", vec[i]);
+        std::printf("%10.5f ", vec[i]);
     }
-    printf("\n");
+    std::printf("\n");
 }
 
 static void check_vec(float *vec, float *ref, float thresh, int n)
@@ -177,7 +172,7 @@ static void check_vec(float *vec, float *ref, float thresh, int n)
         float diff = fabs(vec[i] - ref[i]);
         if(diff > thresh)
         {
-            printf("check_vec failed at index %d, vec %10.5f, ref %10.5f, diff %10.5f, thresh %10.5f\n",
+            std::printf("check_vec failed at index %d, vec %10.5f, ref %10.5f, diff %10.5f, thresh %10.5f\n",
                 i,
                 vec[i],
                 ref[i],
@@ -186,5 +181,5 @@ static void check_vec(float *vec, float *ref, float thresh, int n)
             return;
         }
     }
-    printf("check_vec passed\n");
+    std::printf("check_vec passed\n");
 }
