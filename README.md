@@ -1,7 +1,7 @@
 # gpux
 GPU Experiments.
 
-This repository constains some simple examples to try out programming an Nvidia GPU.
+This repository contains some simple examples to try out programming an Nvidia GPU.
 
 ## Building
 
