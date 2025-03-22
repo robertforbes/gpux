@@ -1,4 +1,4 @@
-// Simple experiment with function pointers.
+// Simple experiment passing pointers to device functions from the host. 
 #include <cstdio>
 #include <cuda.h>
 
