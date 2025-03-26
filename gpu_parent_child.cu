@@ -17,7 +17,7 @@ __global__ void parent_kernel(int n)
 int main()
 {
     std::printf("Host process running, about to spawn parent kernel\n");
-    int n = 3;
+    int n = 100;
     parent_kernel<<<1,1>>>(n);
     cudaDeviceSynchronize();
     std::printf("Host process after sync\n");
