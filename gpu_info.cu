@@ -44,7 +44,11 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("total const mem                : %zd\n", devProps->totalConstMem);
     std::printf("major                          : %d\n", devProps->major);
     std::printf("minor                          : %d\n", devProps->minor);
+    std::printf("texture alignment              : %zd\n", devProps->textureAlignment);
+    std::printf("device overlap                 : %d\n", devProps->deviceOverlap);
     std::printf("multiprocessor count           : %d\n", devProps->multiProcessorCount);
+    std::printf("kernel exec timeout enabled    : %d\n", devProps->kernelExecTimeoutEnabled);
+    std::printf("integrated                     : %d\n", devProps->integrated);
     std::printf("tccDriver                      : %d\n", devProps->tccDriver);
     std::printf("async engine count             : %d\n", devProps->asyncEngineCount);
     std::printf("memory clock rate              : %d\n", devProps->memoryClockRate);
@@ -58,7 +62,6 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("unified function pointers      : %d\n", devProps->unifiedAddressing);
 
     std::printf("tcc driver                     : %d\n", devProps->tccDriver);
-    std::printf("texture alignment              : %zd\n", devProps->textureAlignment);
     std::printf("texture pitch alignment        : %zd\n", devProps->texturePitchAlignment);
     std::printf("\n");
 }
