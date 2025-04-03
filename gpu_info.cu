@@ -49,6 +49,15 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("multiprocessor count           : %d\n", devProps->multiProcessorCount);
     std::printf("kernel exec timeout enabled    : %d\n", devProps->kernelExecTimeoutEnabled);
     std::printf("integrated                     : %d\n", devProps->integrated);
+    std::printf("can map host memory            : %d\n", devProps->canMapHostMemory);
+    std::printf("compute mode                   : %d\n", devProps->computeMode);
+
+    std::printf("surface alignment              : %zd\n", devProps->surfaceAlignment);
+    std::printf("concurrent kernels             : %d\n", devProps->concurrentKernels);
+    std::printf("ECC enabled                    : %d\n", devProps->ECCEnabled);
+    std::printf("PCI bus ID                     : %d\n", devProps->pciBusID);
+    std::printf("PCI device ID                  : %d\n", devProps->pciDeviceID);
+    std::printf("PCI domain ID                  : %d\n", devProps->pciDomainID);
     std::printf("tccDriver                      : %d\n", devProps->tccDriver);
     std::printf("async engine count             : %d\n", devProps->asyncEngineCount);
     std::printf("memory clock rate              : %d\n", devProps->memoryClockRate);
