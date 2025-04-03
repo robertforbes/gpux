@@ -60,6 +60,7 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("PCI domain ID                  : %d\n", devProps->pciDomainID);
     std::printf("tccDriver                      : %d\n", devProps->tccDriver);
     std::printf("async engine count             : %d\n", devProps->asyncEngineCount);
+    std::printf("unified addressing             : %d\n", devProps->unifiedAddressing);
     std::printf("memory clock rate              : %d\n", devProps->memoryClockRate);
     std::printf("memory bus width               : %d\n", devProps->memoryBusWidth);
 
@@ -67,7 +68,6 @@ static void displayDeviceProperties(cudaDeviceProp *devProps)
     std::printf("registers per multiprocessor   : %d\n", devProps->regsPerMultiprocessor);
 
     std::printf("reserved shared mem per block  : %zd\n", devProps->reservedSharedMemPerBlock);
-    std::printf("unified addressing             : %d\n", devProps->unifiedAddressing);
     std::printf("unified function pointers      : %d\n", devProps->unifiedAddressing);
 
     std::printf("tcc driver                     : %d\n", devProps->tccDriver);
