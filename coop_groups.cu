@@ -11,7 +11,9 @@ __global__ void groupKernel()
     // threadBlockGroup includes all threads in the block
     thread_block threadBlockGroup     = this_thread_block();
     int          threadBlockGroupSize = threadBlockGroup.size();
-    std::printf("threadBlockGroupSize: %d\n", threadBlockGroupSize);
+
+    int rank = threadBlockGroup.thread_rank();
+    std::printf("rank %d, threadBlockGroupSize: %d\n", rank, threadBlockGroupSize);
 
     threadBlockGroup.sync();
 }
